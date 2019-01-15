@@ -8,19 +8,19 @@ class speech_message(threading.Thread):
         reco = sr.Recognizer()
         with sr.Microphone() as source:
             print("tell me message sir")
-            audio = reco.listen(source)
+            audio = reco.listen(source)    #recognize the user audio
 
             try:
                 text = reco.recognize_google(audio)
-                print("you said {}".format(text))
+                print("you said {}".format(text))    #print the message after speaking
             except:
                 print("sorry")
         msg = ""
         words = text.split(" ")
         for i in range(0,len(words)):
-             msg = msg + words[i] +"%20"
+             msg = msg + words[i] +"%20"             #make the string compatible which are used in MSG91 api
 
-        person = speech_number.speech_number.call_speech_number()
+        person = speech_number.speech_number.call_speech_number() #object which is used to recognize the receiver name
 
         if person == "DAD"or"dad"or"Dad":
             number = 6239816767
@@ -37,7 +37,7 @@ class speech_message(threading.Thread):
         else:
             print("wrong input")
 
-        api = "/api/sendhttp.php?sender=MSGIND&route=4&mobiles={}&authkey=231367A7r8pgXLE5b706965&encrypt=1&country=91&message={}&unicode=1&afterminutes=&response=json&campaign=bhimsen".format(number,msg)
+        api = "/api/sendhttp.php?sender=MSGIND&route=4&mobiles={}&authkey=231367A7r8pgXLE5b706965&encrypt=1&country=91&message={}&unicode=1&afterminutes=&response=json&campaign=bhimsen".format(number,msg)  #MSG91 api to send messages on cell phone and formated with user data
         print(api)
         conn = http.client.HTTPConnection("api.msg91.com")
         conn.request("GET", api)
